@@ -11,10 +11,12 @@ import java.util.Scanner;
 public class ToDoList {
 	private static ArrayList<Task> tasks = new ArrayList<>();
 	
+	static Scanner scan = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		Boolean run = true;
-		Scanner scan = new Scanner(System.in);
 		while(run) {
+			int input = -1;
 			System.out.println("ToDo List:");
 			System.out.println("1. Add Task");
 			System.out.println("2. view Tasks");
@@ -24,7 +26,8 @@ public class ToDoList {
 			System.out.println("6. Exit");
 			
 			System.out.print("your choice: ");
-			int input = scan.nextInt();
+			input = scan.nextInt();
+			scan.nextLine();
 			
 			switch(input) {
 				case 1:
@@ -48,21 +51,20 @@ public class ToDoList {
 					break;
 				default:
 					System.out.println("error: invalid input");
+					
 			}
-			
+			System.out.println("here");
+			//scan.close();
 		}
 	}
 	
 	private static void addTask() {
-		Scanner scan = new Scanner(System.in);
 		System.out.println("What is the name of your task? ");
 		String name = scan.nextLine();
 		System.out.println("What is the description of your task? ");
 		String desc = scan.nextLine();
 		System.out.println("How long will the task take? ");
 		int time = scan.nextInt();
-		
-		scan.close();
 		
 		Task task = new Task(name, desc, time);
 		tasks.add(task);
