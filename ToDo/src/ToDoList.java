@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ToDoList {
-	private static ArrayList<String> tasks = new ArrayList<>();
+	private static ArrayList<Task> tasks = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		Boolean run = true;
@@ -43,6 +43,7 @@ public class ToDoList {
 					deleteTask();
 					break;
 				case 6:
+					scan.close();
 					run = false;
 					break;
 				default:
@@ -53,6 +54,19 @@ public class ToDoList {
 	}
 	
 	private static void addTask() {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("What is the name of your task? ");
+		String name = scan.nextLine();
+		System.out.println("What is the description of your task? ");
+		String desc = scan.nextLine();
+		System.out.println("How long will the task take? ");
+		int time = scan.nextInt();
+		
+		scan.close();
+		
+		Task task = new Task(name, desc, time);
+		tasks.add(task);
+		
 		System.out.println("add");
 	}
 	
