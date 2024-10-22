@@ -3,11 +3,13 @@ public class Task {
 	String name;
 	String desc;
 	int time;
+	Boolean isDone;
 	
 	Task(String newName, String newDesc, int newTime){
 		name = newName;
 		desc = newDesc;
 		time = newTime;
+		isDone = false;
 	}
 	
 	public String getName() {
@@ -29,5 +31,11 @@ public class Task {
 	}
 	public void setTime(int newTime) {
 		time = newTime;
+	}
+	public Boolean getIsDone() {
+		return isDone;
+	}
+	public void markDone() {
+		isDone = true;
 	}
 }

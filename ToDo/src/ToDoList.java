@@ -27,7 +27,7 @@ public class ToDoList {
 			
 			System.out.print("your choice: ");
 			input = scan.nextInt();
-			scan.nextLine();
+			scan.nextLine();//removes the \n from the end of the line
 			
 			switch(input) {
 				case 1:
@@ -66,11 +66,49 @@ public class ToDoList {
 		
 		Task task = new Task(name, desc, time);
 		tasks.add(task);
-		
-		//System.out.println("add");
 	}
 	
 	private static void editTask() {
+		viewTasks();
+		System.out.println("Which task would you like to edit? (name): ");
+		String name = scan.nextLine();
+		for(int i = 0; i<tasks.size(); i++) {
+			Task temp = tasks.get(i);
+			String tempName = temp.getName();
+			if(name.equals(tempName)) {
+				System.out.println("1. Name");
+				System.out.println("2. Description");
+				System.out.println("3. Time");
+				System.out.println("which would you like to edit? ");
+				
+				int input = scan.nextInt();
+				scan.nextLine();//removes the \n at the end of the line
+				switch(input) {
+					case 1:
+						System.out.println("What is the new name? ");
+						String newName = scan.nextLine();
+						temp.setName(newName);
+						break;
+					case 2:
+						System.out.println("What is the new description? ");
+						String newDesc = scan.nextLine();
+						temp.setDesc(newDesc);
+						break;
+					case 3:
+						System.out.println("What is the new time? ");
+						int newTime = scan.nextInt();
+						scan.nextLine();//removes \n
+						temp.setTime(newTime);
+						break;
+					default:
+						System.out.println("error: incorect input");
+				}
+					
+				return;
+			}
+		}
+		System.out.println("that taks is not on your to-do list");
+		
 		System.out.println("edit");
 	}
 	
@@ -95,14 +133,41 @@ public class ToDoList {
 			System.out.println(time);
 			System.out.println("----------");
 		}
-		System.out.println("view");
 	}
 	
 	private static void markTaskDone() {
-		System.out.println("finish");
+		viewTasks();
+		System.out.println("Which task would you like to mark as completed? (name): ");
+		String name = scan.nextLine();
+		for(int i = 0; i<tasks.size(); i++) {
+			Task temp = tasks.get(i);
+			String tempName = temp.getName();
+			if(name.equals(tempName)) {
+				temp.markDone();
+				System.out.print(name);
+				System.out.println(" was marked completed!");
+				return;
+			}
+		}
+		System.out.println("that taks is not on your to-do list");
 	}
 	
 	private static void deleteTask() {
+		viewTasks();
+		System.out.println("Which task would you like to remove from your to-do list? (name): ");
+		String name = scan.nextLine();
+		for(int i = 0; i<tasks.size(); i++) {
+			Task temp = tasks.get(i);
+			String tempName = temp.getName();
+			if(name.equals(tempName)) {
+				tasks.remove(i);
+				System.out.print(name);
+				System.out.println(" was removed from your to-do list!");
+				return;
+			}
+		}
+		System.out.println("that taks is not on your to-do list");
+		
 		System.out.println("delete");
 	}
 }
