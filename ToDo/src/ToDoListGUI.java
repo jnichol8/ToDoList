@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +12,9 @@ public class ToDoListGUI {
     private JTextField taskInput;
     private JTextField descInput;
     private JTextField timeInput;
-    
+    private JTextArea descriptionArea;
+    private JLabel timeLabel;
+
     public ToDoListGUI() {
         todoList = new ToDoList();
         taskListModel = new DefaultListModel<>();
@@ -18,7 +22,13 @@ public class ToDoListGUI {
         taskInput = new JTextField("task", 15);
         descInput = new JTextField("description", 20);
         timeInput = new JTextField("time (mins)", 10);
-        
+
+        descriptionArea = new JTextArea(5, 30);
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setWrapStyleWord(true);
+        descriptionArea.setEditable(false);
+        timeLabel = new JLabel("Time: ");
+
         setupGUI();
     }
 
@@ -39,23 +49,28 @@ public class ToDoListGUI {
         inputPanel.add(removeButton);
         JButton completeButton = new JButton("Complete Task");
         inputPanel.add(completeButton);
-        
+
         frame.add(inputPanel, BorderLayout.NORTH);
-        
-        
+
         // Task List Panel
         JScrollPane scrollPane = new JScrollPane(taskList);
         frame.add(scrollPane, BorderLayout.CENTER);
-        
+
+        // Labels Panel
+        JPanel labelsPanel = new JPanel(new BorderLayout());
+        labelsPanel.add(new JScrollPane(descriptionArea), BorderLayout.CENTER);
+        labelsPanel.add(timeLabel, BorderLayout.SOUTH);
+        frame.add(labelsPanel, BorderLayout.SOUTH);
+
         taskList.setCellRenderer(new TaskCellRenderer());
-        
+
         // Button Actions
-        // handle the add button
+        // Handle the add button
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String taskName = taskInput.getText();
-            	String taskDescription = descInput.getText();
+                String taskDescription = descInput.getText();
                 String temp = timeInput.getText();
                 int taskTime = 0;
                 try {
@@ -81,6 +96,8 @@ public class ToDoListGUI {
                 if (selectedIndex != -1) {
                     todoList.deleteTask(selectedIndex);
                     taskListModel.remove(selectedIndex);
+                    descriptionArea.setText("");
+                    timeLabel.setText("Time: ");
                 }
             }
         });
@@ -95,7 +112,22 @@ public class ToDoListGUI {
                 }
             }
         });
-        
+
+        // Add ListSelectionListener to taskList
+        taskList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = taskList.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        Task selectedTask = taskListModel.getElementAt(selectedIndex);
+                        descriptionArea.setText(selectedTask.getDesc());
+                        timeLabel.setText("Time: " + selectedTask.getTime() + " mins");
+                    }
+                }
+            }
+        });
+
         frame.setVisible(true);
     }
 

@@ -2,6 +2,7 @@
 public class Task {
 	String name;
 	String desc;
+	String catagory;
 	int time;
 	Boolean isDone;
 	
@@ -41,6 +42,11 @@ public class Task {
 	
 	@Override
 	public String toString() {
-		return (isDone ? "[Done] " : "[Pending] ") + name;
+		if(time<=15)
+			return (isDone ? "[Done]   " : "[Pending]   ") + name + "   quick(" + time + " mins)";
+		else if(time>15 && time < 30)
+			return (isDone ? "[Done]   " : "[Pending]   ") + name + "   medium(" + time + " mins)";
+		else
+			return (isDone ? "[Done]   " : "[Pending]   ") + name + "   long(" + time + " mins)";
 	}
 }
