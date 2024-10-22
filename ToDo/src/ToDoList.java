@@ -53,8 +53,6 @@ public class ToDoList {
 					System.out.println("error: invalid input");
 					
 			}
-			System.out.println("here");
-			//scan.close();
 		}
 	}
 	
@@ -69,7 +67,7 @@ public class ToDoList {
 		Task task = new Task(name, desc, time);
 		tasks.add(task);
 		
-		System.out.println("add");
+		//System.out.println("add");
 	}
 	
 	private static void editTask() {
@@ -77,6 +75,26 @@ public class ToDoList {
 	}
 	
 	private static void viewTasks() {
+		if (tasks.isEmpty()) {
+			System.out.println("there are no tasks");
+			return;
+		}
+		
+		for(int i = 0; i<tasks.size(); i++) {
+			Task temp = tasks.get(i);
+			String name = temp.getName();
+			String desc = temp.getDesc();
+			int time = temp.getTime();
+			
+			System.out.println("----------");
+			System.out.print("Name: ");
+			System.out.println(name);
+			System.out.print("Description: ");
+			System.out.println(desc);
+			System.out.print("Time: ");
+			System.out.println(time);
+			System.out.println("----------");
+		}
 		System.out.println("view");
 	}
 	
