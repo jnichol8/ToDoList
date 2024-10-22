@@ -56,7 +56,7 @@ public class ToDoList {
 		}
 	}
 	
-	private static void addTask() {
+	private static void addTask() {//adds a task to the list
 		System.out.println("What is the name of your task? ");
 		String name = scan.nextLine();
 		System.out.println("What is the description of your task? ");
@@ -68,7 +68,7 @@ public class ToDoList {
 		tasks.add(task);
 	}
 	
-	private static void editTask() {
+	private static void editTask() {//allows the user to change one part of a task
 		viewTasks();
 		System.out.println("Which task would you like to edit? (name): ");
 		String name = scan.nextLine();
@@ -112,7 +112,7 @@ public class ToDoList {
 		System.out.println("edit");
 	}
 	
-	private static void viewTasks() {
+	private static void viewTasks() {//allows the user to see the current list of tasks
 		if (tasks.isEmpty()) {
 			System.out.println("there are no tasks");
 			return;
@@ -135,7 +135,7 @@ public class ToDoList {
 		}
 	}
 	
-	private static void markTaskDone() {
+	private static void markTaskDone() {//marks the task done
 		viewTasks();
 		System.out.println("Which task would you like to mark as completed? (name): ");
 		String name = scan.nextLine();
@@ -152,7 +152,7 @@ public class ToDoList {
 		System.out.println("that taks is not on your to-do list");
 	}
 	
-	private static void deleteTask() {
+	private static void deleteTask() {//removes a task from the list
 		viewTasks();
 		System.out.println("Which task would you like to remove from your to-do list? (name): ");
 		String name = scan.nextLine();
