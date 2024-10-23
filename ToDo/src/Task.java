@@ -11,6 +11,7 @@ public class Task {
 		desc = newDesc;
 		time = newTime;
 		isDone = false;
+		updateCatagory();
 	}
 	
 	public String getName() {
@@ -39,14 +40,25 @@ public class Task {
 	public void markDone() {
 		isDone = true;
 	}
-	
+	public void setCatagory(String newCatagory) {
+		catagory = newCatagory;
+	}
+	public String getCatagory() {
+		return catagory;
+	}
+	public void updateCatagory() {
+		if(time <= 15) {
+			catagory = "quick";
+		}
+		else if(time > 15 && time < 30) {
+			catagory = "medium";
+		}
+		else {
+			catagory = "long";
+		}
+	}
 	@Override
 	public String toString() {
-		if(time<=15)
-			return (isDone ? "[Done]   " : "[Pending]   ") + name + "   quick(" + time + " mins)";
-		else if(time>15 && time < 30)
-			return (isDone ? "[Done]   " : "[Pending]   ") + name + "   medium(" + time + " mins)";
-		else
-			return (isDone ? "[Done]   " : "[Pending]   ") + name + "   long(" + time + " mins)";
+		return (isDone ? "[Done]   " : "[Pending]   ") + name + "   " + catagory + "(" + time + " mins)";
 	}
 }

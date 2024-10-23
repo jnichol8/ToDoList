@@ -133,7 +133,7 @@ public class ToDoListGUI {
                     taskListModel.set(selectedIndex, todoList.getTask(selectedIndex)); // Refresh display
                     
                     Task updatedTask = taskListModel.getElementAt(selectedIndex);
-                    descriptionArea.setText(updatedTask.getDesc());
+                    descriptionArea.setText(updatedTask.getDesc()+ "\nCategory: " + updatedTask.getCatagory());
                     timeLabel.setText("Time: " + updatedTask.getTime() + " mins");
                     
                     taskInput.setText("");
@@ -151,7 +151,7 @@ public class ToDoListGUI {
                     int selectedIndex = taskList.getSelectedIndex();
                     if (selectedIndex != -1) {
                         Task selectedTask = taskListModel.getElementAt(selectedIndex);
-                        descriptionArea.setText(selectedTask.getDesc());
+                        descriptionArea.setText(selectedTask.getDesc() + "\nCategory: " + selectedTask.getCatagory());
                         timeLabel.setText("Time: " + selectedTask.getTime() + " mins");
                     }
                 }

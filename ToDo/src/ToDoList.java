@@ -23,6 +23,7 @@ public class ToDoList {
 		tasks.get(index).setName(newName);
 		tasks.get(index).setDesc(newDesc);
 		tasks.get(index).setTime(newTime);
+		tasks.get(index).updateCatagory();
 	}
 	
 	public void markTaskDone(int index) {//marks the task done
