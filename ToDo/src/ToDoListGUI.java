@@ -35,7 +35,7 @@ public class ToDoListGUI {
     private void setupGUI() {
         JFrame frame = new JFrame("To-Do List Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(950, 700);
+        frame.setSize(1000, 700);
         frame.setLayout(new BorderLayout());
 
         // Task Input Panel
@@ -49,6 +49,8 @@ public class ToDoListGUI {
         inputPanel.add(removeButton);
         JButton completeButton = new JButton("Complete Task");
         inputPanel.add(completeButton);
+        JButton editButton = new JButton("Edit Task");
+        inputPanel.add(editButton);
 
         frame.add(inputPanel, BorderLayout.NORTH);
 
@@ -109,6 +111,34 @@ public class ToDoListGUI {
                 if (selectedIndex != -1) {
                     todoList.markTaskDone(selectedIndex);
                     taskListModel.set(selectedIndex, todoList.getTask(selectedIndex)); // Refresh display
+                }
+            }
+        });
+        
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = taskList.getSelectedIndex();
+                String taskName = taskInput.getText();
+                String taskDescription = descInput.getText();
+                String temp = timeInput.getText();
+                int taskTime = 0;
+                try {
+                    taskTime = Integer.valueOf(temp);
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+                if (selectedIndex != -1) {
+                    todoList.editTask(selectedIndex, taskName, taskDescription, taskTime);
+                    taskListModel.set(selectedIndex, todoList.getTask(selectedIndex)); // Refresh display
+                    
+                    Task updatedTask = taskListModel.getElementAt(selectedIndex);
+                    descriptionArea.setText(updatedTask.getDesc());
+                    timeLabel.setText("Time: " + updatedTask.getTime() + " mins");
+                    
+                    taskInput.setText("");
+                    descInput.setText("");
+                    timeInput.setText("");
                 }
             }
         });
