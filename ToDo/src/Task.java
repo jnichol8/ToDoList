@@ -2,6 +2,7 @@
 public class Task {
 	String name;
 	String desc;
+	String catagory;
 	int time;
 	Boolean isDone;
 	
@@ -10,6 +11,7 @@ public class Task {
 		desc = newDesc;
 		time = newTime;
 		isDone = false;
+		updateCatagory();
 	}
 	
 	public String getName() {
@@ -37,5 +39,26 @@ public class Task {
 	}
 	public void markDone() {
 		isDone = true;
+	}
+	public void setCatagory(String newCatagory) {
+		catagory = newCatagory;
+	}
+	public String getCatagory() {
+		return catagory;
+	}
+	public void updateCatagory() {
+		if(time <= 15) {
+			catagory = "quick";
+		}
+		else if(time > 15 && time < 30) {
+			catagory = "medium";
+		}
+		else {
+			catagory = "long";
+		}
+	}
+	@Override
+	public String toString() {
+		return (isDone ? "[Done]   " : "[Pending]   ") + name + "   " + catagory + "(" + time + " mins)";
 	}
 }
