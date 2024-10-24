@@ -27,7 +27,7 @@ public class ToDoListGUI {
         todoList = new ToDoList();
         taskListModel = new DefaultListModel<>();
         taskList = new JList<>(taskListModel);
-        taskInput = createTextField("task", 15);
+        taskInput = createTextField("task name", 15);
         descInput = createTextField("description", 20);
         timeInput = createTextField("time (mins)", 10);
 
@@ -222,7 +222,7 @@ public class ToDoListGUI {
     }
     
     private void clearInputs() {
-        taskInput.setText("task");
+        taskInput.setText("task name");
         taskInput.setForeground(Color.GRAY);
         descInput.setText("description");
         descInput.setForeground(Color.GRAY);
