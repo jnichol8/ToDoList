@@ -4,6 +4,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class ToDoListGUI {
     private ToDoList todoList;
@@ -14,14 +16,20 @@ public class ToDoListGUI {
     private JTextField timeInput;
     private JTextArea descriptionArea;
     private JLabel timeLabel;
-
+    private JComboBox<String> categoryFilter;
+    
+    private static final String ALL = "All";
+    private static final String QUICK = "Quick (0-15 mins)";
+    private static final String MEDIUM = "Medium (16-30 mins)";
+    private static final String LONG = "Long (31+ mins)";
+    
     public ToDoListGUI() {
         todoList = new ToDoList();
         taskListModel = new DefaultListModel<>();
         taskList = new JList<>(taskListModel);
-        taskInput = new JTextField("task", 15);
-        descInput = new JTextField("description", 20);
-        timeInput = new JTextField("time (mins)", 10);
+        taskInput = createTextField("task", 15);
+        descInput = createTextField("description", 20);
+        timeInput = createTextField("time (mins)", 10);
 
         descriptionArea = new JTextArea(5, 30);
         descriptionArea.setLineWrap(true);
@@ -31,11 +39,37 @@ public class ToDoListGUI {
 
         setupGUI();
     }
+    
+    private JTextField createTextField(String placeholder, int len) {
+        JTextField textField = new JTextField(len);
+        textField.setText(placeholder);
+        textField.setForeground(Color.GRAY);
+
+        textField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField.getText().equals(placeholder)) {
+                    textField.setText("");
+                    textField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setForeground(Color.GRAY);
+                    textField.setText(placeholder);
+                }
+            }
+        });
+
+        return textField;
+    }
 
     private void setupGUI() {
         JFrame frame = new JFrame("To-Do List Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 700);
+        frame.setSize(1150, 700);
         frame.setLayout(new BorderLayout());
 
         // Task Input Panel
@@ -53,7 +87,13 @@ public class ToDoListGUI {
         inputPanel.add(editButton);
 
         frame.add(inputPanel, BorderLayout.NORTH);
+        
+        categoryFilter = new JComboBox<>(new String[]{ALL, QUICK, MEDIUM, LONG});
+        inputPanel.add(categoryFilter);
+        categoryFilter.addActionListener(e -> updateTaskList());
 
+        frame.add(inputPanel, BorderLayout.NORTH);
+        
         // Task List Panel
         JScrollPane scrollPane = new JScrollPane(taskList);
         frame.add(scrollPane, BorderLayout.CENTER);
@@ -84,9 +124,7 @@ public class ToDoListGUI {
                 if (!taskDescription.isEmpty() && taskTime != 0) {
                     todoList.addTask(taskName, taskDescription, taskTime);
                     taskListModel.addElement(new Task(taskName, taskDescription, taskTime));
-                    taskInput.setText("");
-                    descInput.setText("");
-                    timeInput.setText("");
+                    clearInputs();
                 }
             }
         });
@@ -136,9 +174,7 @@ public class ToDoListGUI {
                     descriptionArea.setText(updatedTask.getDesc()+ "\nCategory: " + updatedTask.getCatagory());
                     timeLabel.setText("Time: " + updatedTask.getTime() + " mins");
                     
-                    taskInput.setText("");
-                    descInput.setText("");
-                    timeInput.setText("");
+                    clearInputs();
                 }
             }
         });
@@ -159,6 +195,39 @@ public class ToDoListGUI {
         });
 
         frame.setVisible(true);
+    }
+    
+    private void updateTaskList() {
+        String selectedCategory = (String) categoryFilter.getSelectedItem();
+        taskListModel.clear();
+        for (Task task : todoList.getTasks()) {
+            if (matchesCategory(task, selectedCategory)) {
+                taskListModel.addElement(task);
+            }
+        }
+    }
+    
+    private boolean matchesCategory(Task task, String category) {
+        switch (category) {
+            case QUICK:
+                return task.getTime() <= 15;
+            case MEDIUM:
+                return task.getTime() > 15 && task.getTime() <= 30;
+            case LONG:
+                return task.getTime() > 30;
+            case ALL:
+            default:
+                return true;
+        }
+    }
+    
+    private void clearInputs() {
+        taskInput.setText("task");
+        taskInput.setForeground(Color.GRAY);
+        descInput.setText("description");
+        descInput.setForeground(Color.GRAY);
+        timeInput.setText("time (mins)");
+        timeInput.setForeground(Color.GRAY);
     }
 
     public static void main(String[] args) {
