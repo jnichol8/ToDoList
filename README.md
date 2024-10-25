@@ -1,4 +1,5 @@
 This is a java based todolist that uses swift to create the GUI
+This means that you need JAVA 17 to run the JAR file: [JavaSE17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html )
 
 once the 3 fields are filled, click the add button to add the task to the todolist
 after clicking on a task in the list, you can:
